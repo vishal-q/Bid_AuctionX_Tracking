@@ -9,6 +9,7 @@ springboot-backend/target/
 # Environment files (secrets)
 frontend/.env
 frontend/.env.local
+frontend/.env.production.local
 
 # IDE files
 .idea/
