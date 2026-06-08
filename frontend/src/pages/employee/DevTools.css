@@ -1,0 +1,876 @@
+.devtools-page {
+  padding: 28px 28px 40px;
+  min-height: calc(100vh - 72px);
+  color: var(--color-text);
+  animation: devtoolsFadeIn 220ms ease-out both;
+}
+
+@keyframes devtoolsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.devtools-hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 28px;
+}
+
+.devtools-hero > div:first-child {
+  flex: 1 1 580px;
+  min-width: 280px;
+}
+
+.devtools-hero h1 {
+  font-size: clamp(2rem, 2.5vw, 2.8rem);
+  margin-bottom: 12px;
+  letter-spacing: -0.04em;
+}
+
+.devtools-hero p {
+  max-width: 720px;
+  color: var(--color-muted);
+  line-height: 1.75;
+  margin-bottom: 18px;
+}
+
+.devtools-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.devtools-tab {
+  border-radius: 999px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+.devtools-tab:hover,
+.devtools-tab.active {
+  border-color: rgba(59, 130, 246, 0.18);
+  background: rgba(59, 130, 246, 0.12);
+  color: #ffffff;
+}
+
+.devtools-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
+  gap: 24px;
+}
+
+.devtools-sidebar {
+  display: grid;
+  gap: 20px;
+}
+
+.devtools-sidebar .sidebar-card,
+.devtools-content .card,
+.tool-card,
+.modal-panel,
+.devtools-shell-panel,
+.terminal-wrapper,
+.py-demo-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #60a5fa;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 16px;
+}
+
+.devtools-sidebar .card {
+  padding: 22px;
+}
+
+.devtools-sidebar h3,
+.devtools-sidebar h4 {
+  margin-bottom: 16px;
+  font-size: 1rem;
+}
+
+.devtools-sidebar p,
+.devtools-sidebar .task-list,
+.devtools-sidebar textarea {
+  color: var(--color-muted);
+}
+
+.devtools-sidebar .workspace-actions {
+  display: grid;
+  gap: 12px;
+}
+
+.devtools-sidebar .task-list {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.devtools-sidebar .task-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.devtools-sidebar .task-list li:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.devtools-sidebar .task-list li.done {
+  color: #a5f3fc;
+}
+
+.devtools-sidebar textarea {
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+  border-radius: 16px;
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface2);
+  color: var(--color-text);
+}
+
+.devtools-content {
+  display: grid;
+  gap: 24px;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.tools-sequence {
+  display: grid;
+  gap: 18px;
+}
+
+.tool-summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  padding: 22px;
+  border-radius: 24px;
+  align-items: center;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  min-height: 120px;
+}
+
+.tool-sequence-item {
+  padding: 24px;
+}
+
+.tool-sequence-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.22);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.tool-summary-main {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.tool-summary-copy {
+  display: grid;
+  gap: 10px;
+}
+
+.tool-summary-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tool-open-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #dbeafe;
+  background: rgba(59, 130, 246, 0.18);
+}
+
+.tool-summary-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+}
+
+.tool-summary:hover {
+  transform: translateY(-2px);
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.28);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.tool-logo {
+  min-width: 54px;
+  min-height: 54px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tool-logo-vscode {
+  background: linear-gradient(135deg, #007acc 0%, #005a9c 100%);
+}
+
+.tool-logo-intellij {
+  background: linear-gradient(135deg, #f43f5e 0%, #d92f54 100%);
+}
+
+.tool-logo-pycharm {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+}
+
+.tool-summary h4 {
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+.tool-summary p {
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.6;
+  font-size: 0.94rem;
+}
+
+.devtools-shell-panel,
+.py-demo-panel,
+.devtools-window {
+  padding: 24px;
+}
+
+/* Premium browser IDE feel */
+.devtools-window--opening {
+  animation: devtoolsWindowOpen 220ms ease-out both;
+}
+
+@keyframes devtoolsWindowOpen {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.ide-webchip {
+  margin-left: 10px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #dbeafe;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  box-shadow: 0 0 22px rgba(59, 130, 246, 0.18);
+  vertical-align: middle;
+}
+
+/* Neon focus for interactive items */
+.ide-tab,
+.btn-click-open,
+.profile-item {
+  outline: none;
+}
+
+.ide-tab:hover {
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.22);
+}
+
+.devtools-window .ide-editor {
+  position: relative;
+}
+
+.devtools-window .ide-editor::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 24px;
+  background: radial-gradient(800px circle at 10% 0%, rgba(0,229,255,0.22), transparent 40%),
+    radial-gradient(900px circle at 80% 10%, rgba(59,130,246,0.18), transparent 45%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.devtools-window:hover .ide-editor::after {
+  opacity: 1;
+}
+
+
+.ide-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 22px;
+}
+
+.ide-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 14px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.ide-brand.tool-logo-vscode {
+  background: #007acc;
+}
+
+.ide-brand.tool-logo-intellij {
+  background: #fe315d;
+}
+
+.ide-brand.tool-logo-pycharm {
+  background: #2563eb;
+}
+
+.ide-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.ide-tab {
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-muted);
+  font-size: 0.93rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ide-tab.active {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.24);
+  color: #fff;
+}
+
+.ide-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+}
+
+.tool-grid-window {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 20px;
+}
+
+.tool-side {
+  display: grid;
+  gap: 20px;
+}
+
+.tool-main {
+  display: grid;
+  gap: 20px;
+}
+
+.panel-run-profiles {
+  background: rgba(15, 23, 42, 0.85);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.ide-editor {
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  background: rgba(8, 15, 31, 0.95);
+}
+
+.ide-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ide-editor-file {
+  font-weight: 700;
+}
+
+.ide-editor-status {
+  color: var(--color-muted);
+  font-size: 0.88rem;
+}
+
+.tool-console {
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  background: rgba(8, 15, 31, 0.95);
+}
+
+.tool-console-title {
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+}
+
+.tool-actions-inline {
+  justify-self: end;
+}
+
+.tool-card {
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.profile-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.profile-form input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text);
+}
+
+.tool-code-block pre,
+.tool-console pre,
+.py-demo-panel textarea {
+  margin: 0;
+  padding: 18px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: transparent;
+}
+
+.tool-summary p {
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.6;
+  font-size: 0.92rem;
+}
+
+.devtools-shell-panel,
+.py-demo-panel,
+.devtools-window {
+  padding: 24px;
+}
+
+.devtools-shell-panel .panel-header,
+.devtools-window-header,
+.python-demo .demo-header,
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.devtools-shell-panel .panel-header h2,
+.devtools-window-header h2,
+.demo-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.devtools-shell-panel .panel-header p,
+.devtools-window-header p,
+.demo-header p {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.devtools-shell-panel .status-chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.12);
+  color: #bfdbfe;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.panel-grid,
+.tool-grid,
+.demo-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.panel-grid {
+  grid-template-columns: 1.2fr 1.8fr;
+}
+
+.devtools-shell-panel .field-row,
+.py-demo-panel .demo-editor,
+.py-demo-panel .demo-output {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.devtools-shell-panel label,
+.py-demo-panel label {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+}
+
+.devtools-shell-panel input,
+.devtools-shell-panel textarea,
+.py-demo-panel textarea,
+.devtools-shell-panel select {
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface2);
+  color: var(--color-text);
+  padding: 12px 14px;
+}
+
+.devtools-shell-panel select {
+  appearance: none;
+}
+
+.devtools-shell-panel .button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.terminal-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #090b12;
+  border: 1px solid rgba(59, 130, 246, 0.18);
+}
+
+.terminal-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(15, 23, 42, 0.95);
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.terminal-view {
+  flex: 1;
+  min-height: 320px;
+  padding: 18px;
+  background: #020409;
+}
+
+.tool-card {
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+}
+
+.tool-card-title {
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.profile-list {
+  display: grid;
+  gap: 10px;
+}
+
+.profile-item {
+  width: 100%;
+  text-align: left;
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.profile-item:hover,
+.profile-item.active {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+.tool-code-block {
+  background: var(--color-surface2);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.tool-code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tool-code-header span {
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.tool-code-block pre,
+.tool-console pre,
+.py-demo-panel textarea {
+  margin: 0;
+  padding: 18px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: transparent;
+}
+
+.tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.tool-console {
+  margin-top: 18px;
+  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.tool-console-title {
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-weight: 700;
+}
+
+.tool-console pre {
+  min-height: 190px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 14, 26, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-panel {
+  width: min(760px, 100%);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.32);
+}
+
+.modal-body {
+  padding: 22px;
+  display: grid;
+  gap: 18px;
+}
+
+.modal-header {
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.modal-header h3 {
+  margin: 0 0 6px;
+}
+
+.modal-header p {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.snippet-list {
+  display: grid;
+  gap: 14px;
+}
+
+.snippet-card {
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+}
+
+.snippet-card-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.snippet-form {
+  display: grid;
+  gap: 12px;
+}
+
+.snippet-form input,
+.snippet-form textarea {
+  width: 100%;
+  border-radius: 14px;
+  background: var(--color-surface2);
+  border: 1px solid var(--color-border);
+  padding: 14px 16px;
+}
+
+.py-demo-panel .demo-grid {
+  grid-template-columns: 1.4fr 1fr;
+}
+
+.py-demo-panel .demo-editor,
+.py-demo-panel .demo-output {
+  padding: 20px;
+}
+
+.py-demo-panel .output-title,
+.py-demo-panel .editor-title {
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+.py-demo-panel pre {
+  min-height: 220px;
+}
+
+@media (max-width: 1100px) {
+  .devtools-layout,
+  .panel-grid,
+  .py-demo-panel .demo-grid,
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .devtools-page {
+    padding: 18px 16px 32px;
+  }
+
+  .devtools-tabs {
+    width: 100%;
+  }
+
+  .tool-summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .terminal-wrapper {
+    min-height: 260px;
+  }
+}

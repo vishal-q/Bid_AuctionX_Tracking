@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevWorkspace - Spring Boot IDE Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #050816 0%, #0a0f1f 50%, #050816 100%);
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(0, 229, 255, 0.5);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #00e5ff, #0066ff, #ff0066);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        .header-glow {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.2) 0%, transparent 70%);
+            position: absolute;
+            left: 50%;
+            top: -100px;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+
+        /* IDE Grid */
+        .ide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        /* IDE Card */
+        .ide-card {
+            position: relative;
+            background: rgba(15, 25, 50, 0.7);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 25px;
+            padding: 35px 25px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            backdrop-filter: blur(20px);
+            cursor: pointer;
+            box-shadow: 
+                0 0 20px rgba(0, 229, 255, 0.1),
+                inset 0 0 20px rgba(255, 255, 255, 0.02);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .ide-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                rgba(0, 229, 255, 0.1) 0%, 
+                transparent 50%, 
+                rgba(255, 0, 102, 0.1) 100%);
+            animation: shimmer 3s infinite;
+        }
+
+        .ide-card:hover {
+            transform: 
+                perspective(1200px)
+                rotateX(8deg)
+                rotateY(-8deg)
+                translateZ(20px)
+                translateY(-12px)
+                scale(1.05);
+            
+            box-shadow: 
+                0 20px 60px rgba(0, 229, 255, 0.4),
+                0 0 80px rgba(0, 229, 255, 0.3),
+                inset 0 0 30px rgba(0, 229, 255, 0.1);
+            
+            border-color: rgba(0, 229, 255, 0.6);
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(20px, 20px) rotate(180deg); }
+        }
+
+        .glow {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #00e5ff, transparent);
+            top: -50px;
+            right: -50px;
+            opacity: 0.15;
+            transition: all 0.4s ease;
+        }
+
+        .ide-card:hover .glow {
+            opacity: 0.3;
+            width: 250px;
+            height: 250px;
+        }
+
+        .ide-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #00e5ff, #0066ff);
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.4);
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+
+        .ide-card:hover .ide-logo {
+            box-shadow: 0 0 60px rgba(0, 229, 255, 0.6);
+            transform: scale(1.1) rotateZ(5deg);
+        }
+
+        .logo-pink { background: linear-gradient(135deg, #ff0066, #ff4d94) !important; }
+        .logo-blue { background: linear-gradient(135deg, #0066ff, #00aaff) !important; }
+        .logo-purple { background: linear-gradient(135deg, #9d00ff, #7b2cbf) !important; }
+        .logo-green { background: linear-gradient(135deg, #00ff88, #00cc66) !important; }
+        .logo-orange { background: linear-gradient(135deg, #ff6600, #ff9933) !important; }
+        .logo-red { background: linear-gradient(135deg, #ff3366, #ff0033) !important; }
+
+        .ide-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 2;
+            font-weight: 700;
+        }
+
+        .ide-card p {
+            color: #888;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 2;
+            line-height: 1.5;
+        }
+
+        .ide-card button {
+            width: 100%;
+            padding: 14px 25px;
+            border: 2px solid rgba(0, 229, 255, 0.3);
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 229, 255, 0.1));
+            color: #00e5ff;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ide-card button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .ide-card:hover button {
+            border-color: #00e5ff;
+            box-shadow: 
+                0 0 20px rgba(0, 229, 255, 0.4),
+                inset 0 0 20px rgba(0, 229, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .ide-card button:active {
+            transform: scale(0.98);
+        }
+
+        /* Workspace Container */
+        #workspaceContainer {
+            position: relative;
+            z-index: 2;
+        }
+
+        .workspace {
+            margin: 60px 0;
+            background: rgba(12, 16, 36, 0.9);
+            border-radius: 30px;
+            overflow: hidden;
+            animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 
+                0 20px 80px rgba(0, 229, 255, 0.2),
+                inset 0 0 40px rgba(0, 229, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .workspace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            background: linear-gradient(90deg, rgba(18, 25, 51, 0.8), rgba(15, 30, 60, 0.5));
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .workspace-header h2 {
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #00e5ff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .workspace-header button {
+            padding: 10px 25px;
+            border: 1px solid rgba(255, 0, 102, 0.4);
+            border-radius: 12px;
+            background: rgba(255, 0, 102, 0.1);
+            color: #ff0066;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .workspace-header button:hover {
+            background: rgba(255, 0, 102, 0.2);
+            box-shadow: 0 0 20px rgba(255, 0, 102, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .workspace-body {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 600px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(10, 15, 31, 0.95);
+            padding: 25px 20px;
+            border-right: 1px solid rgba(0, 229, 255, 0.15);
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #00e5ff;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-item {
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 10px;
+            background: rgba(0, 229, 255, 0.05);
+            border-left: 2px solid transparent;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(0, 229, 255, 0.12);
+            border-left-color: #00e5ff;
+            color: #00e5ff;
+            transform: translateX(5px);
+        }
+
+        .sidebar-item.active {
+            background: rgba(0, 229, 255, 0.18);
+            border-left-color: #00e5ff;
+            color: #00e5ff;
+            font-weight: 600;
+        }
+
+        /* Editor Section */
+        .editor-section {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .file-tabs {
+            display: flex;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+            gap: 10px;
+            overflow-x: auto;
+            background: rgba(15, 25, 50, 0.6);
+        }
+
+        .file-tab {
+            padding: 10px 16px;
+            border-radius: 12px 12px 0 0;
+            background: rgba(0, 229, 255, 0.08);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-bottom: none;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .file-tab:hover {
+            background: rgba(0, 229, 255, 0.15);
+            color: #00e5ff;
+        }
+
+        .file-tab.active {
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 229, 255, 0.15));
+            border-color: rgba(0, 229, 255, 0.4);
+            color: #00e5ff;
+            font-weight: 600;
+        }
+
+        .code-editor {
+            flex: 1;
+            padding: 25px;
+            background: rgba(8, 12, 24, 0.95);
+            overflow: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 25px;
+            border-radius: 18px;
+            min-height: 280px;
+            color: #00ff99;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            border: 1px solid rgba(0, 255, 153, 0.2);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 255, 153, 0.05),
+                0 0 20px rgba(0, 255, 153, 0.1);
+            animation: codeGlow 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes codeGlow {
+            0%, 100% { box-shadow: inset 0 0 30px rgba(0, 255, 153, 0.05), 0 0 20px rgba(0, 255, 153, 0.1); }
+            50% { box-shadow: inset 0 0 40px rgba(0, 255, 153, 0.1), 0 0 30px rgba(0, 255, 153, 0.15); }
+        }
+
+        .code::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00ff99, transparent);
+            animation: lineMove 2s infinite;
+        }
+
+        @keyframes lineMove {
+            0% { top: 0; opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .terminal {
+            margin-top: 20px;
+            background: rgba(5, 5, 5, 0.9);
+            padding: 20px;
+            border-radius: 18px;
+            color: #00ff99;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 255, 153, 0.2);
+            min-height: 120px;
+            max-height: 150px;
+            overflow-y: auto;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 255, 153, 0.03),
+                0 0 15px rgba(0, 255, 153, 0.08);
+        }
+
+        .terminal-line {
+            margin: 5px 0;
+            animation: typeWriter 0.3s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes typeWriter {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .run-button {
+            margin-top: 20px;
+            padding: 14px 30px;
+            border: 2px solid rgba(0, 229, 255, 0.4);
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.3), rgba(0, 229, 255, 0.2));
+            color: #00e5ff;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .run-button:hover {
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.5), rgba(0, 229, 255, 0.4));
+            box-shadow: 
+                0 0 30px rgba(0, 229, 255, 0.4),
+                inset 0 0 20px rgba(0, 229, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .run-button:active {
+            transform: translateY(-1px);
+        }
+
+        .auto-save {
+            display: inline-block;
+            margin-left: 15px;
+            font-size: 0.85rem;
+            color: #00cc66;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 229, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 229, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 229, 255, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .ide-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .workspace-body {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ide-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+            }
+
+            .container {
+                padding: 20px 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .ide-card {
+                padding: 20px 15px;
+            }
+
+            .ide-logo {
+                width: 70px;
+                height: 70px;
+                font-size: 24px;
+            }
+
+            .workspace-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-glow"></div>
+            <h1>⚡ DevWorkspace</h1>
+            <p>Premium IDE Dashboard for Spring Boot Development</p>
+        </div>
+
+        <!-- IDE Grid -->
+        <div class="ide-grid">
+            <!-- VS Code -->
+            <div class="ide-card" onclick="openWorkspace('VS Code', 'vscode')">
+                <div class="glow"></div>
+                <div class="ide-logo">VS</div>
+                <h2>VS Code</h2>
+                <p>Modern web development and frontend IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- IntelliJ IDEA -->
+            <div class="ide-card" onclick="openWorkspace('IntelliJ IDEA', 'intellij')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-pink">IJ</div>
+                <h2>IntelliJ IDEA</h2>
+                <p>Java & Spring Boot enterprise IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- PyCharm -->
+            <div class="ide-card" onclick="openWorkspace('PyCharm', 'pycharm')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-blue">PY</div>
+                <h2>PyCharm</h2>
+                <p>Python AI & data science workspace</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- WebStorm -->
+            <div class="ide-card" onclick="openWorkspace('WebStorm', 'webstorm')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-purple">WS</div>
+                <h2>WebStorm</h2>
+                <p>Professional JavaScript IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- CLion -->
+            <div class="ide-card" onclick="openWorkspace('CLion', 'clion')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-green">CL</div>
+                <h2>CLion</h2>
+                <p>C++ & C development IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Rider -->
+            <div class="ide-card" onclick="openWorkspace('Rider', 'rider')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-purple">.N</div>
+                <h2>Rider</h2>
+                <p>.NET & C# IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- GoLand -->
+            <div class="ide-card" onclick="openWorkspace('GoLand', 'goland')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-green">GO</div>
+                <h2>GoLand</h2>
+                <p>Go programming IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- RubyMine -->
+            <div class="ide-card" onclick="openWorkspace('RubyMine', 'rubymine')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-red">RM</div>
+                <h2>RubyMine</h2>
+                <p>Ruby on Rails development IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- PhpStorm -->
+            <div class="ide-card" onclick="openWorkspace('PhpStorm', 'phpstorm')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-purple">PS</div>
+                <h2>PhpStorm</h2>
+                <p>PHP & web development IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- DataGrip -->
+            <div class="ide-card" onclick="openWorkspace('DataGrip', 'datagrip')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-orange">DG</div>
+                <h2>DataGrip</h2>
+                <p>Database & SQL IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Android Studio -->
+            <div class="ide-card" onclick="openWorkspace('Android Studio', 'android')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-green">AS</div>
+                <h2>Android Studio</h2>
+                <p>Android app development IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Xcode -->
+            <div class="ide-card" onclick="openWorkspace('Xcode', 'xcode')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-blue">XC</div>
+                <h2>Xcode</h2>
+                <p>iOS & macOS development IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Visual Studio -->
+            <div class="ide-card" onclick="openWorkspace('Visual Studio', 'visualstudio')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-pink">VS</div>
+                <h2>Visual Studio</h2>
+                <p>Full-featured enterprise IDE</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Sublime Text -->
+            <div class="ide-card" onclick="openWorkspace('Sublime Text', 'sublime')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-orange">ST</div>
+                <h2>Sublime Text</h2>
+                <p>Lightweight code editor</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Atom -->
+            <div class="ide-card" onclick="openWorkspace('Atom', 'atom')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-green">AT</div>
+                <h2>Atom</h2>
+                <p>Hackable text editor</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Vim -->
+            <div class="ide-card" onclick="openWorkspace('Vim', 'vim')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-green">VI</div>
+                <h2>Vim</h2>
+                <p>Terminal-based editor</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Emacs -->
+            <div class="ide-card" onclick="openWorkspace('Emacs', 'emacs')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-purple">EM</div>
+                <h2>Emacs</h2>
+                <p>Extensible text editor</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Nova -->
+            <div class="ide-card" onclick="openWorkspace('Nova', 'nova')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-blue">NV</div>
+                <h2>Nova</h2>
+                <p>Beautiful macOS code editor</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Cursor -->
+            <div class="ide-card" onclick="openWorkspace('Cursor', 'cursor')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-red">CR</div>
+                <h2>Cursor</h2>
+                <p>AI-enhanced code editor</p>
+                <button>Click To Open</button>
+            </div>
+
+            <!-- Neovim -->
+            <div class="ide-card" onclick="openWorkspace('Neovim', 'neovim')">
+                <div class="glow"></div>
+                <div class="ide-logo logo-green">NV</div>
+                <h2>Neovim</h2>
+                <p>Modern vim fork</p>
+                <button>Click To Open</button>
+            </div>
+        </div>
+
+        <!-- Workspace Container -->
+        <div id="workspaceContainer"></div>
+    </div>
+
+    <script>
+        // Generate Particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.opacity = Math.random() * 0.5;
+                container.appendChild(particle);
+            }
+        }
+
+        // IDE Configuration
+        const ideConfig = {
+            vscode: {
+                theme: '#00e5ff',
+                files: ['App.jsx', 'DevTools.jsx', 'package.json', 'vite.config.js', 'main.jsx'],
+                code: `import React, { useState } from 'react'
+import './App.css'
+
+export default function App() {
+  const [bids, setBids] = useState([])
+  
+  return (
+    <div className="app">
+      <h1>BidFlow Dashboard</h1>
+      <p>{bids.length} active bids</p>
+    </div>
+  )
+}`,
+                terminal: [
+                    '> npm run dev',
+                    '✅ Vite ready in 220ms',
+                    '📦 Port 5173'
+                ]
+            },
+            intellij: {
+                theme: '#ff0066',
+                files: ['Main.java', 'BidController.java', 'BidService.java', 'pom.xml', 'application.properties'],
+                code: `package com.bidflow;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class BidFlowApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(BidFlowApplication.class, args);
+    }
+}`,
+                terminal: [
+                    '> ./mvnw spring-boot:run',
+                    '✅ Application started on port 8080',
+                    '📱 BidFlow Service Ready'
+                ]
+            },
+            pycharm: {
+                theme: '#0066ff',
+                files: ['main.py', 'models.py', 'utils.py', 'requirements.txt', '.env'],
+                code: `import pandas as pd
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route('/api/bids')
+def get_bids():
+    bids = pd.read_csv('bids.csv')
+    return jsonify(bids.to_dict())
+
+if __name__ == '__main__':
+    app.run(debug=True)`,
+                terminal: [
+                    '> python main.py',
+                    '✅ Dev environment ready',
+                    '🔗 Running on http://localhost:5000'
+                ]
+            },
+            webstorm: {
+                theme: '#9d00ff',
+                files: ['index.js', 'server.js', 'config.js', 'package.json'],
+                code: `const express = require('express');
+const app = express();
+
+app.get('/api/bids', (req, res) => {
+  res.json({ bids: [] });
+});
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});`,
+                terminal: [
+                    '> npm start',
+                    '✅ Express server started',
+                    '📡 Listening on port 3000'
+                ]
+            },
+            clion: {
+                theme: '#00ff88',
+                files: ['main.cpp', 'bidflow.h', 'CMakeLists.txt'],
+                code: `#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<std::string> bids;
+    std::cout << "BidFlow C++ Application" << std::endl;
+    return 0;
+}`,
+                terminal: [
+                    '> cmake --build . --target BidFlow',
+                    '✅ Build completed',
+                    '🚀 Ready to run'
+                ]
+            },
+            rider: {
+                theme: '#9d00ff',
+                files: ['Program.cs', 'BidController.cs', 'appsettings.json'],
+                code: `using BidFlow.API;
+using Microsoft.AspNetCore.Mvc;
+
+[ApiController]
+[Route("api/[controller]")]
+public class BidsController : ControllerBase {
+    [HttpGet]
+    public IActionResult GetBids() {
+        return Ok(new { bids = new List<object>() });
+    }
+}`,
+                terminal: [
+                    '> dotnet run',
+                    '✅ .NET application started',
+                    '🌐 Server on localhost:5000'
+                ]
+            },
+            goland: {
+                theme: '#00ff88',
+                files: ['main.go', 'handlers.go', 'models.go', 'go.mod'],
+                code: `package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    http.HandleFunc("/api/bids", getBids)
+    fmt.Println("Server starting on :8080")
+    http.ListenAndServe(":8080", nil)
+}
+
+func getBids(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json")
+    w.Write([]byte(\`{"bids": []}\`))
+}`,
+                terminal: [
+                    '> go run main.go',
+                    '✅ Server started',
+                    '📍 Listening on :8080'
+                ]
+            },
+            rubymine: {
+                theme: '#ff0033',
+                files: ['app.rb', 'Gemfile', 'routes.rb', 'config.ru'],
+                code: `require 'sinatra'
+require 'json'
+
+get '/api/bids' do
+  content_type :json
+  { bids: [] }.to_json
+end
+
+post '/api/bids' do
+  request.body.rewind
+  data = JSON.parse request.body.read
+  { success: true }.to_json
+end`,
+                terminal: [
+                    '> ruby app.rb',
+                    '✅ Sinatra web server running',
+                    '🔗 Listening on localhost:4567'
+                ]
+            },
+            phpstorm: {
+                theme: '#9d00ff',
+                files: ['index.php', 'BidController.php', 'config.php', 'composer.json'],
+                code: `<?php
+
+namespace App\\Controllers;
+
+class BidController {
+    public function getBids() {
+        return [
+            'status' => 'success',
+            'bids' => []
+        ];
+    }
+}
+
+$controller = new BidController();
+echo json_encode($controller->getBids());`,
+                terminal: [
+                    '> php -S localhost:8000',
+                    '✅ PHP server started',
+                    '🌐 Development server running'
+                ]
+            },
+            datagrip: {
+                theme: '#ff6600',
+                files: ['queries.sql', 'schema.sql', 'seeds.sql'],
+                code: `-- BidFlow Database Schema
+SELECT * FROM bids 
+WHERE status = 'OPEN' 
+ORDER BY created_at DESC;
+
+INSERT INTO bids (title, description, amount)
+VALUES ('Project X', 'Infrastructure project', 50000);
+
+UPDATE bids SET status = 'CLOSED' 
+WHERE id = 1;`,
+                terminal: [
+                    '> Connected to PostgreSQL',
+                    '✅ Database active',
+                    '📊 Query executed successfully'
+                ]
+            },
+            android: {
+                theme: '#00ff88',
+                files: ['MainActivity.java', 'activity_main.xml', 'strings.xml', 'AndroidManifest.xml'],
+                code: `package com.bidflow.mobile;
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}`,
+                terminal: [
+                    '> Building Android project',
+                    '✅ App compiled successfully',
+                    '📱 Ready to deploy to emulator'
+                ]
+            },
+            xcode: {
+                theme: '#0066ff',
+                files: ['ContentView.swift', 'AppDelegate.swift', 'Info.plist'],
+                code: `import SwiftUI
+
+@main
+struct BidFlowApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+struct ContentView: View {
+    var body: some View {
+        Text("Welcome to BidFlow")
+    }
+}`,
+                terminal: [
+                    '> Building iOS app',
+                    '✅ Compilation successful',
+                    '🍎 Ready for simulator'
+                ]
+            },
+            visualstudio: {
+                theme: '#ff0066',
+                files: ['Program.cs', 'Form1.cs', 'App.config', 'packages.config'],
+                code: `using System;
+using System.Windows.Forms;
+
+namespace BidFlow {
+    public partial class Form1 : Form {
+        public Form1() {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e) {
+            MessageBox.Show("Welcome to BidFlow");
+        }
+    }
+}`,
+                terminal: [
+                    '> Building solution',
+                    '✅ Build successful',
+                    '🖥️ Ready to run'
+                ]
+            },
+            sublime: {
+                theme: '#ff6600',
+                files: ['config.json', 'script.js', 'style.css', 'index.html'],
+                code: `// Sublime Text Configuration
+{
+    "theme": "Dracula",
+    "color_scheme": "Monokai",
+    "font_size": 12,
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true
+}`,
+                terminal: [
+                    '> Sublime Text 4 ready',
+                    '✅ Plugins loaded',
+                    '⚡ Performance: optimal'
+                ]
+            },
+            atom: {
+                theme: '#00ff88',
+                files: ['init.coffee', 'styles.less', 'package.json'],
+                code: `# Atom init script
+atom.commands.add 'atom-workspace', 'custom:greet', () ->
+  console.log 'Welcome to BidFlow development'
+
+# Reload on file change
+fs.watchFile 'app.js', (curr, prev) ->
+  console.log 'File changed, reloading...'`,
+                terminal: [
+                    '> Atom editor loaded',
+                    '✅ Packages initialized',
+                    '🚀 Ready to code'
+                ]
+            },
+            vim: {
+                theme: '#00ff88',
+                files: ['.vimrc', 'init.vim', 'plugin.vim'],
+                code: `:set number
+:set relativenumber
+:colorscheme dracula
+:set tabstop=2
+:set shiftwidth=2
+
+" BidFlow development configuration
+autocmd BufWritePost *.js !npm run lint %`,
+                terminal: [
+                    '> vim application.js',
+                    '✅ Editor ready',
+                    '📝 Type to edit'
+                ]
+            },
+            emacs: {
+                theme: '#9d00ff',
+                files: ['init.el', '.emacs', 'config.el'],
+                code: `(require 'package)
+(add-to-list 'package-archives
+  '("melpa" . "https://melpa.org/packages/"))
+
+(use-package lsp-mode
+  :ensure t)
+
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)`,
+                terminal: [
+                    '> emacs application.js',
+                    '✅ Emacs started',
+                    '🔧 LSP loaded'
+                ]
+            },
+            nova: {
+                theme: '#0066ff',
+                files: ['main.js', 'config.json', 'styles.css'],
+                code: `// Nova Configuration
+module.exports = {
+  theme: 'Dracula',
+  fontSize: 13,
+  fontFamily: 'SF Mono',
+  tabSize: 2,
+  linters: {
+    eslint: true
+  }
+}`,
+                terminal: [
+                    '> Nova editor ready',
+                    '✅ Extensions loaded',
+                    '🌟 Workspace configured'
+                ]
+            },
+            cursor: {
+                theme: '#ff0066',
+                files: ['main.ts', 'types.ts', 'utils.ts'],
+                code: `// Cursor AI Configuration
+import Anthropic from '@anthropic-ai/sdk'
+
+const client = new Anthropic()
+
+async function generateCode() {
+  const message = await client.messages.create({
+    model: "claude-3-opus-20240229",
+    messages: [
+      { role: "user", content: "Generate BidFlow API" }
+    ]
+  })
+  console.log(message)
+}`,
+                terminal: [
+                    '> Cursor AI editor ready',
+                    '✅ Claude integration active',
+                    '🤖 AI suggestions enabled'
+                ]
+            },
+            neovim: {
+                theme: '#00ff88',
+                files: ['init.lua', 'plugins.lua', 'keybindings.lua'],
+                code: `-- Neovim configuration
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+
+require('packer').startup(function(use)
+  use 'neovim/nvim-lspconfig'
+  use 'nvim-treesitter/nvim-treesitter'
+end)`,
+                terminal: [
+                    '> nvim application.ts',
+                    '✅ Neovim initialized',
+                    '⚡ LSP active'
+                ]
+            }
+        };
+
+        // Open Workspace
+        function openWorkspace(name, ideType) {
+            const config = ideConfig[ideType] || ideConfig.vscode;
+            const container = document.getElementById('workspaceContainer');
+
+            let fileTabsHTML = config.files.map((file, idx) => 
+                `<div class="file-tab ${idx === 0 ? 'active' : ''}">${file}</div>`
+            ).join('');
+
+            let terminalLinesHTML = config.terminal.map((line, idx) => 
+                `<div class="terminal-line" style="animation-delay: ${idx * 0.1}s">${line}</div>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="workspace">
+                    <div class="workspace-header">
+                        <h2>● ${name} Workspace</h2>
+                        <button onclick="closeWorkspace()">✕ Close</button>
+                    </div>
+
+                    <div class="workspace-body">
+                        <div class="sidebar">
+                            <h3>📁 Explorer</h3>
+                            <div class="sidebar-section">
+                                <div class="sidebar-item active">src/</div>
+                                <div class="sidebar-item">public/</div>
+                                <div class="sidebar-item">config/</div>
+                                <div class="sidebar-item">tests/</div>
+                                <div class="sidebar-item">.gitignore</div>
+                            </div>
+
+                            <h3>🔧 Tools</h3>
+                            <div class="sidebar-section">
+                                <div class="sidebar-item">🐛 Debug</div>
+                                <div class="sidebar-item">🧪 Testing</div>
+                                <div class="sidebar-item">📦 Dependencies</div>
+                                <div class="sidebar-item">🔍 Search</div>
+                            </div>
+
+                            <h3>📊 Extensions</h3>
+                            <div class="sidebar-section">
+                                <div class="sidebar-item">Prettier</div>
+                                <div class="sidebar-item">ESLint</div>
+                                <div class="sidebar-item">GitLens</div>
+                                <div class="sidebar-item">Thunder Client</div>
+                            </div>
+                        </div>
+
+                        <div class="editor-section">
+                            <div class="file-tabs">
+                                ${fileTabsHTML}
+                            </div>
+
+                            <div class="code-editor">
+                                <div class="code">${config.code.trim()}</div>
+                                <div class="terminal">
+                                    ${terminalLinesHTML}
+                                </div>
+                                <button class="run-button" onclick="runCode('${ideType}')">
+                                    ▶ RUN & BUILD
+                                </button>
+                                <span class="auto-save">✓ Auto-saved</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Smooth scroll to workspace
+            setTimeout(() => {
+                document.getElementById('workspaceContainer').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 100);
+        }
+
+        // Close Workspace
+        function closeWorkspace() {
+            const container = document.getElementById('workspaceContainer');
+            container.style.animation = 'slideUp 0.4s ease-out reverse';
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 400);
+        }
+
+        // Run Code
+        function runCode(ideType) {
+            const terminal = document.querySelector('.terminal');
+            if (!terminal) return;
+
+            const lines = [
+                '> Building project...',
+                '✅ Compilation successful',
+                '📦 Dependencies resolved',
+                '🚀 Server starting...',
+                '✓ Ready on http://localhost:' + (8000 + Math.floor(Math.random() * 4000))
+            ];
+
+            terminal.innerHTML = '';
+            lines.forEach((line, idx) => {
+                setTimeout(() => {
+                    const lineEl = document.createElement('div');
+                    lineEl.className = 'terminal-line';
+                    lineEl.textContent = line;
+                    terminal.appendChild(lineEl);
+                    terminal.scrollTop = terminal.scrollHeight;
+                }, idx * 300);
+            });
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+        });
+    </script>
+</body>
+</html>

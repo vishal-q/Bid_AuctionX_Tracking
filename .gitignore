@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Build outputs
+frontend/dist/
+springboot-backend/target/
+
+# Environment files (secrets)
+springboot-backend/src/main/resources/application.properties
+frontend/.env
+frontend/.env.local
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
