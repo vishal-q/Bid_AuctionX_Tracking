@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.util.Properties;
 
 @Service
@@ -71,13 +73,17 @@ public class SSHService {
         ChannelShell channel = (ChannelShell) session.openChannel("shell");
         channel.setPtyType("xterm-256color");
 
-        // Use separate streams for stdout and stderr
+        // ChannelShell does NOT have getErrStream() — stderr is merged into stdout
+        // by the PTY on the server side. We pipe stdout only; stderr field gets
+        // an always-empty stream so the WebSocket handler still compiles.
         channel.setOutputStream(null);
-        channel.setExtOutputStream(null);
 
         OutputStream stdin  = channel.getOutputStream();
         InputStream  stdout = channel.getInputStream();
-        InputStream  stderr = channel.getErrStream();
+
+        // Provide a valid but empty stderr stream (PTY merges stderr → stdout)
+        PipedOutputStream stderrSink   = new PipedOutputStream();
+        InputStream       stderr       = new PipedInputStream(stderrSink);
 
         channel.connect(10_000);
 
