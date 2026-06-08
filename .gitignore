@@ -7,7 +7,6 @@ frontend/dist/
 springboot-backend/target/
 
 # Environment files (secrets)
-springboot-backend/src/main/resources/application.properties
 frontend/.env
 frontend/.env.local
 
