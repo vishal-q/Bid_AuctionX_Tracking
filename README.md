@@ -10,6 +10,7 @@
 
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Click_Here-brightgreen?style=for-the-badge)](https://bidflow-frontend-jeeu.onrender.com)
 [![Backend API](https://img.shields.io/badge/⚙️_Backend_API-Live-blue?style=for-the-badge)](https://bid-auctionx-tracking.onrender.com/api/health)
+[![Documentation](https://img.shields.io/badge/📄_Documentation-PDF-red?style=for-the-badge)](https://github.com/vishal-q/Bid_AuctionX_Tracking/blob/main/BidFlow_Documentation.pdf)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/vishal-q/Bid_AuctionX_Tracking)
 
 </div>
