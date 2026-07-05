@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BidFlow AuctionX — Project Documentation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7;}
+.cover{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);color:#fff;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 40px;page-break-after:always;}
+.cover-logo{font-size:80px;margin-bottom:24px;}
+.cover-title{font-size:56px;font-weight:800;letter-spacing:-2px;margin-bottom:12px;background:linear-gradient(90deg,#60a5fa,#a78bfa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.cover-sub{font-size:20px;font-weight:300;color:#94a3b8;margin-bottom:10px;}
+.cover-tagline{font-size:15px;color:#64748b;margin-bottom:48px;font-style:italic;}
+.cover-badges{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:50px;}
+.badge{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:8px 22px;border-radius:50px;font-size:13px;font-weight:500;}
+.badge.green{border-color:#34d399;color:#34d399;}
+.badge.blue{border-color:#60a5fa;color:#60a5fa;}
+.badge.purple{border-color:#a78bfa;color:#a78bfa;}
+.badge.orange{border-color:#fb923c;color:#fb923c;}
+.cover-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px;width:100%;max-width:720px;}
+.meta-box{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:22px;border-radius:16px;}
+.meta-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#64748b;margin-bottom:8px;}
+.meta-value{font-size:15px;font-weight:600;color:#e2e8f0;}
+.cover-line{width:80px;height:3px;background:linear-gradient(90deg,#3b82f6,#a78bfa);border-radius:2px;margin:30px auto;}
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="cover-logo">🏆</div>
+  <div class="cover-title">BidFlow AuctionX</div>
+  <div class="cover-sub">Industrial Bid Management System</div>
+  <div class="cover-tagline">Full-Stack Platform with AI · Real-time Maps · WebSocket · JWT Security</div>
+  <div class="cover-line"></div>
+  <div class="cover-badges">
+    <span class="badge blue">Spring Boot 3.2.5</span>
+    <span class="badge green">React 19 + Vite</span>
+    <span class="badge purple">MongoDB Atlas</span>
+    <span class="badge orange">Google Gemini AI</span>
+    <span class="badge blue">JWT Security</span>
+    <span class="badge green">WebSocket</span>
+  </div>
+  <div class="cover-meta">
+    <div class="meta-box"><div class="meta-label">Project</div><div class="meta-value">BidFlow v1.0.0</div></div>
+    <div class="meta-box"><div class="meta-label">Date</div><div class="meta-value">June 2026</div></div>
+    <div class="meta-box"><div class="meta-label">Type</div><div class="meta-value">Full-Stack Web App</div></div>
+  </div>
+</div>
+
+<!-- PAGE 2: TABLE OF CONTENTS -->
+<div class="page" style="page-break-after:always;">
+<style>
+.page{max-width:900px;margin:0 auto;padding:60px 50px;page-break-after:always;}
+h1{font-size:38px;font-weight:800;color:#0f172a;margin-bottom:8px;padding-bottom:18px;border-bottom:4px solid #3b82f6;}
+h2{font-size:24px;font-weight:700;color:#1e293b;margin:36px 0 14px;padding-left:16px;border-left:5px solid #3b82f6;background:linear-gradient(90deg,#eff6ff,transparent);padding:10px 16px;border-radius:0 8px 8px 0;}
+h3{font-size:17px;font-weight:600;color:#1e40af;margin:24px 0 10px;}
+p{margin-bottom:14px;color:#374151;font-size:15px;}
+.toc{background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:36px 44px;margin:30px 0;box-shadow:0 4px 20px rgba(0,0,0,0.05);}
+.toc-title{font-size:22px;font-weight:700;color:#0f172a;margin-bottom:24px;display:flex;align-items:center;gap:12px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.toc-item{display:flex;align-items:center;padding:10px 0;border-bottom:1px dashed #e2e8f0;gap:12px;}
+.toc-num{background:#3b82f6;color:#fff;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.toc-text{font-size:14px;color:#334155;font-weight:500;}
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0;}
+.ov-box{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.ov-icon{font-size:32px;margin-bottom:10px;}
+.ov-title{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:6px;}
+.ov-desc{font-size:13px;color:#64748b;line-height:1.6;}
+</style>
+
+<h1>📋 Project Documentation</h1>
+<p style="font-size:16px;color:#64748b;">This document provides a comprehensive technical overview of the BidFlow AuctionX Tracking platform — covering architecture, technology stack, features, APIs, database design, security, and deployment.</p>
+
+<div class="toc">
+  <div class="toc-title">📑 Table of Contents</div>
+  <div class="toc-grid">
+    <div class="toc-item"><div class="toc-num">1</div><div class="toc-text">Project Overview</div></div>
+    <div class="toc-item"><div class="toc-num">2</div><div class="toc-text">System Architecture</div></div>
+    <div class="toc-item"><div class="toc-num">3</div><div class="toc-text">Technology Stack</div></div>
+    <div class="toc-item"><div class="toc-num">4</div><div class="toc-text">Backend — Spring Boot</div></div>
+    <div class="toc-item"><div class="toc-num">5</div><div class="toc-text">Frontend — React.js</div></div>
+    <div class="toc-item"><div class="toc-num">6</div><div class="toc-text">Database — MongoDB</div></div>
+    <div class="toc-item"><div class="toc-num">7</div><div class="toc-text">API Documentation</div></div>
+    <div class="toc-item"><div class="toc-num">8</div><div class="toc-text">Authentication & Security</div></div>
+    <div class="toc-item"><div class="toc-num">9</div><div class="toc-text">AI Features</div></div>
+    <div class="toc-item"><div class="toc-num">10</div><div class="toc-text">User Roles & Permissions</div></div>
+    <div class="toc-item"><div class="toc-num">11</div><div class="toc-text">Bid Workflow & Lifecycle</div></div>
+    <div class="toc-item"><div class="toc-num">12</div><div class="toc-text">Real-time Features</div></div>
+    <div class="toc-item"><div class="toc-num">13</div><div class="toc-text">Live Map Tracking</div></div>
+    <div class="toc-item"><div class="toc-num">14</div><div class="toc-text">Payment & Subscriptions</div></div>
+    <div class="toc-item"><div class="toc-num">15</div><div class="toc-text">Deployment (Render + Docker)</div></div>
+    <div class="toc-item"><div class="toc-num">16</div><div class="toc-text">Multilingual & Theme</div></div>
+  </div>
+</div>
+
+<h2>1. Project Overview</h2>
+<p><strong>BidFlow AuctionX Tracking</strong> is a production-grade, full-stack industrial bid management platform. It enables organizations to manage the complete lifecycle of business bids — from client submission through AI-powered analysis, employee assignment, progress tracking, to final approval and client feedback.</p>
+
+<div class="overview-grid">
+  <div class="ov-box"><div class="ov-icon">🤖</div><div class="ov-title">AI-Powered Analysis</div><div class="ov-desc">Google Gemini AI for win probability prediction, sentiment analysis, bid summaries, and intelligent recommendations.</div></div>
+  <div class="ov-box"><div class="ov-icon">🗺️</div><div class="ov-title">Live Map Tracking</div><div class="ov-desc">Real-time location tracking of team members using OpenStreetMap and React Leaflet with geolocation API.</div></div>
+  <div class="ov-box"><div class="ov-icon">🔔</div><div class="ov-title">Real-time Notifications</div><div class="ov-desc">WebSocket-based instant notifications for every bid action — assignments, approvals, status changes.</div></div>
+  <div class="ov-box"><div class="ov-icon">🔐</div><div class="ov-title">Enterprise Security</div><div class="ov-desc">JWT authentication, BCrypt password hashing, Google OAuth 2.0, and role-based access control.</div></div>
+  <div class="ov-box"><div class="ov-icon">💳</div><div class="ov-title">Subscription System</div><div class="ov-desc">4-tier plan system (Free/Basic/Pro/Enterprise) with payment processing and invoice generation.</div></div>
+  <div class="ov-box"><div class="ov-icon">🌐</div><div class="ov-title">Multilingual Support</div><div class="ov-desc">Full English, Hindi, and Arabic language support with RTL layout for Arabic and persistent preference.</div></div>
+</div>
+</div>
+
+<!-- PAGE 3: SYSTEM ARCHITECTURE -->
+<div class="page" style="page-break-after:always;">
+<style>
+.arch-diagram{background:#0f172a;border-radius:20px;padding:36px;margin:24px 0;font-family:'JetBrains Mono',monospace;color:#e2e8f0;font-size:13px;line-height:1.9;overflow:hidden;}
+.arch-layer{border:1px solid;border-radius:12px;padding:20px 24px;margin:10px 0;}
+.layer-browser{border-color:#60a5fa;background:rgba(96,165,250,0.08);}
+.layer-backend{border-color:#a78bfa;background:rgba(167,139,250,0.08);}
+.layer-db{border-color:#34d399;background:rgba(52,211,153,0.08);}
+.layer-ext{border-color:#fb923c;background:rgba(251,146,60,0.08);}
+.layer-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;}
+.layer-browser .layer-title{color:#60a5fa;}
+.layer-backend .layer-title{color:#a78bfa;}
+.layer-db .layer-title{color:#34d399;}
+.layer-ext .layer-title{color:#fb923c;}
+.layer-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{padding:4px 14px;border-radius:20px;font-size:12px;font-weight:500;}
+.chip-blue{background:rgba(96,165,250,0.15);color:#93c5fd;border:1px solid rgba(96,165,250,0.3);}
+.chip-purple{background:rgba(167,139,250,0.15);color:#c4b5fd;border:1px solid rgba(167,139,250,0.3);}
+.chip-green{background:rgba(52,211,153,0.15);color:#6ee7b7;border:1px solid rgba(52,211,153,0.3);}
+.chip-orange{background:rgba(251,146,60,0.15);color:#fdba74;border:1px solid rgba(251,146,60,0.3);}
+.arrow-box{text-align:center;color:#64748b;font-size:13px;padding:6px 0;font-family:'JetBrains Mono',monospace;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:24px 0;}
+.info-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.info-num{font-size:32px;font-weight:800;color:#3b82f6;margin-bottom:4px;}
+.info-label{font-size:13px;color:#64748b;font-weight:500;}
+</style>
+
+<h2>2. System Architecture</h2>
+<p>BidFlow follows a <strong>3-tier client-server architecture</strong> with clear separation between the presentation layer (React frontend), business logic layer (Spring Boot backend), and data layer (MongoDB Atlas). All communication is via RESTful HTTP APIs with JWT authentication.</p>
+
+<div class="arch-diagram">
+  <div class="arch-layer layer-browser">
+    <div class="layer-title">🌐 Presentation Layer — Client Browser</div>
+    <div class="layer-chips">
+      <span class="chip chip-blue">React 19 + Vite</span>
+      <span class="chip chip-blue">Zustand State</span>
+      <span class="chip chip-blue">React Router DOM</span>
+      <span class="chip chip-blue">Axios HTTP Client</span>
+      <span class="chip chip-blue">Tailwind CSS v4</span>
+      <span class="chip chip-blue">Recharts Analytics</span>
+      <span class="chip chip-blue">React Leaflet Map</span>
+    </div>
+  </div>
+  <div class="arrow-box">↕ HTTP/REST (Axios) · JWT Bearer Token · WebSocket (STOMP)</div>
+  <div class="arch-layer layer-backend">
+    <div class="layer-title">⚙️ Business Logic Layer — Spring Boot Backend (Port 8080)</div>
+    <div class="layer-chips">
+      <span class="chip chip-purple">REST Controllers</span>
+      <span class="chip chip-purple">Spring Security + JWT</span>
+      <span class="chip chip-purple">Service Layer</span>
+      <span class="chip chip-purple">GeminiService (AI)</span>
+      <span class="chip chip-purple">NotificationService</span>
+      <span class="chip chip-purple">WebSocket Handler</span>
+      <span class="chip chip-purple">OtpService (Email)</span>
+      <span class="chip chip-purple">SSHService</span>
+    </div>
+  </div>
+  <div class="arrow-box">↕ MongoDB Java Driver (TLS/SSL)</div>
+  <div class="arch-layer layer-db">
+    <div class="layer-title">🗄️ Data Layer — MongoDB Atlas (Cloud, AWS Mumbai)</div>
+    <div class="layer-chips">
+      <span class="chip chip-green">users collection</span>
+      <span class="chip chip-green">bids collection</span>
+      <span class="chip chip-green">notifications</span>
+      <span class="chip chip-green">payments</span>
+      <span class="chip chip-green">subscription_plans</span>
+      <span class="chip chip-green">discussions</span>
+      <span class="chip chip-green">meetings</span>
+      <span class="chip chip-green">otp_tokens</span>
+    </div>
+  </div>
+  <div class="arrow-box">↕ HTTPS API Calls</div>
+  <div class="arch-layer layer-ext">
+    <div class="layer-title">🔗 External Services</div>
+    <div class="layer-chips">
+      <span class="chip chip-orange">Google Gemini AI API</span>
+      <span class="chip chip-orange">Google OAuth 2.0</span>
+      <span class="chip chip-orange">OpenStreetMap / Nominatim</span>
+      <span class="chip chip-orange">Gmail SMTP (OTP Email)</span>
+      <span class="chip chip-orange">Render.com (Hosting)</span>
+    </div>
+  </div>
+</div>
+
+<div class="info-grid">
+  <div class="info-card"><div class="info-num">11</div><div class="info-label">REST Controllers</div></div>
+  <div class="info-card"><div class="info-num">8</div><div class="info-label">MongoDB Collections</div></div>
+  <div class="info-card"><div class="info-num">40+</div><div class="info-label">API Endpoints</div></div>
+  <div class="info-card"><div class="info-num">4</div><div class="info-label">User Roles</div></div>
+  <div class="info-card"><div class="info-num">3</div><div class="info-label">Languages Supported</div></div>
+  <div class="info-card"><div class="info-num">4</div><div class="info-label">Subscription Plans</div></div>
+</div>
+
+<h3>Communication Protocols</h3>
+<p><strong>REST/HTTP:</strong> All CRUD operations use standard HTTP methods (GET, POST, PUT, PATCH, DELETE) with JSON payloads via Axios on the frontend.</p>
+<p><strong>WebSocket (STOMP):</strong> Real-time bi-directional communication for live notifications and the SSH terminal feature. Spring Boot's WebSocket support handles connection upgrades.</p>
+<p><strong>JWT (JSON Web Tokens):</strong> Every protected API request carries a signed JWT token in the Authorization header. The backend validates the token on each request via a custom filter chain.</p>
+</div>
+
+<!-- PAGE 4: TECHNOLOGY STACK -->
+<div class="page" style="page-break-after:always;">
+<style>
+.tech-section{margin:24px 0;}
+.tech-header{background:linear-gradient(90deg,#1e3a5f,#1e293b);color:#fff;padding:14px 24px;border-radius:12px 12px 0 0;font-size:16px;font-weight:700;display:flex;align-items:center;gap:10px;}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:0 0 12px 12px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.06);}
+th{background:#f1f5f9;padding:12px 18px;text-align:left;font-size:13px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:0.5px;}
+td{padding:13px 18px;border-bottom:1px solid #f1f5f9;font-size:14px;color:#334155;vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#f8fafc;}
+.version-tag{background:#dbeafe;color:#1e40af;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;font-family:'JetBrains Mono',monospace;}
+.purpose-tag{color:#64748b;font-size:13px;}
+.def-box{background:#fff;border-left:4px solid #3b82f6;padding:16px 20px;margin:16px 0;border-radius:0 10px 10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.def-term{font-size:15px;font-weight:700;color:#1e40af;margin-bottom:6px;}
+.def-desc{font-size:14px;color:#374151;}
+</style>
+
+<h2>3. Technology Stack — With Definitions</h2>
+
+<div class="tech-section">
+<div class="tech-header">⚙️ Backend Technologies</div>
+<table>
+<tr><th>Technology</th><th>Version</th><th>Purpose & Definition</th></tr>
+<tr><td><strong>Java</strong></td><td><span class="version-tag">17 LTS</span></td><td class="purpose-tag">Object-oriented programming language. Java 17 is a Long-Term Support release offering records, sealed classes, and improved performance used for the entire backend.</td></tr>
+<tr><td><strong>Spring Boot</strong></td><td><span class="version-tag">3.2.5</span></td><td class="purpose-tag">An opinionated Java framework that auto-configures components. Eliminates boilerplate setup for web servers, databases, and security — letting developers focus on business logic.</td></tr>
+<tr><td><strong>Spring Security</strong></td><td><span class="version-tag">6.2.4</span></td><td class="purpose-tag">Comprehensive authentication and authorization framework. Provides filter chains, CORS configuration, CSRF protection, and role-based access control for all API endpoints.</td></tr>
+<tr><td><strong>Spring Data MongoDB</strong></td><td><span class="version-tag">4.2.5</span></td><td class="purpose-tag">ORM layer for MongoDB. Provides repository interfaces with built-in CRUD, custom query methods, and MongoDB aggregation pipeline support without writing raw queries.</td></tr>
+<tr><td><strong>JWT (jjwt)</strong></td><td><span class="version-tag">0.12.5</span></td><td class="purpose-tag">JSON Web Token library for generating and validating stateless authentication tokens. Tokens are signed with HS256 algorithm and carry user identity information.</td></tr>
+<tr><td><strong>OkHttp</strong></td><td><span class="version-tag">4.12.0</span></td><td class="purpose-tag">Efficient HTTP client for Java. Used by GeminiService to make API calls to Google's Gemini AI endpoint for all AI-powered features in the platform.</td></tr>
+<tr><td><strong>Lombok</strong></td><td><span class="version-tag">1.18.x</span></td><td class="purpose-tag">Annotation processor that auto-generates getters, setters, constructors, and builders at compile time — reducing boilerplate code by up to 70%.</td></tr>
+<tr><td><strong>Jackson</strong></td><td><span class="version-tag">2.15.4</span></td><td class="purpose-tag">Industry-standard JSON serialization/deserialization library. Handles conversion between Java objects and JSON for all API request/response payloads.</td></tr>
+<tr><td><strong>Spring WebSocket</strong></td><td><span class="version-tag">6.x</span></td><td class="purpose-tag">Enables full-duplex communication over a single TCP connection. Used for real-time notifications and the built-in SSH terminal feature.</td></tr>
+<tr><td><strong>JSch</strong></td><td><span class="version-tag">0.2.18</span></td><td class="purpose-tag">Java SSH2 client library (mwiede fork). Powers the SSHService which enables browser-based SSH terminal sessions over WebSocket connections.</td></tr>
+<tr><td><strong>Maven</strong></td><td><span class="version-tag">3.x</span></td><td class="purpose-tag">Java project build tool and dependency manager. Manages all library downloads, compilation, testing, and packaging into a deployable JAR file.</td></tr>
+</table>
+</div>
+
+<div class="tech-section">
+<div class="tech-header">⚛️ Frontend Technologies</div>
+<table>
+<tr><th>Technology</th><th>Version</th><th>Purpose & Definition</th></tr>
+<tr><td><strong>React.js</strong></td><td><span class="version-tag">19.x</span></td><td class="purpose-tag">JavaScript UI library using a virtual DOM and component-based architecture. React 19 introduces enhanced concurrent features and improved server component support.</td></tr>
+<tr><td><strong>Vite</strong></td><td><span class="version-tag">8.x</span></td><td class="purpose-tag">Next-generation frontend build tool using native ES modules. Provides instant Hot Module Replacement (HMR) in development and optimized Rollup bundles for production.</td></tr>
+<tr><td><strong>React Router DOM</strong></td><td><span class="version-tag">7.x</span></td><td class="purpose-tag">Declarative client-side routing library. Enables single-page application navigation with protected routes, nested layouts, and programmatic navigation.</td></tr>
+<tr><td><strong>Zustand</strong></td><td><span class="version-tag">5.x</span></td><td class="purpose-tag">Lightweight global state management library. Manages authentication state, theme, language, bids, and notifications with optional localStorage persistence.</td></tr>
+<tr><td><strong>Axios</strong></td><td><span class="version-tag">1.x</span></td><td class="purpose-tag">Promise-based HTTP client. Configured with interceptors to automatically attach JWT tokens to requests and handle 401 unauthorized responses with auto-logout.</td></tr>
+<tr><td><strong>Tailwind CSS</strong></td><td><span class="version-tag">4.x</span></td><td class="purpose-tag">Utility-first CSS framework. Enables rapid UI development with pre-built classes. Version 4 uses a Vite plugin instead of PostCSS for faster compilation.</td></tr>
+<tr><td><strong>React Leaflet</strong></td><td><span class="version-tag">5.x</span></td><td class="purpose-tag">React wrapper for Leaflet.js map library. Renders interactive OpenStreetMap tiles with custom markers for real-time team location visualization.</td></tr>
+<tr><td><strong>Recharts</strong></td><td><span class="version-tag">3.x</span></td><td class="purpose-tag">Composable charting library built on D3. Used for dashboard analytics: bar charts, line charts, pie charts for bid status distribution and revenue trends.</td></tr>
+<tr><td><strong>Framer Motion</strong></td><td><span class="version-tag">12.x</span></td><td class="purpose-tag">Production-ready animation library for React. Powers page transitions, modal animations, sidebar collapse effects, and micro-interactions throughout the UI.</td></tr>
+<tr><td><strong>xterm.js</strong></td><td><span class="version-tag">5.3.0</span></td><td class="purpose-tag">Full-featured terminal emulator for the browser. Renders the SSH terminal UI and handles keyboard input/output forwarding over WebSocket connections.</td></tr>
+<tr><td><strong>React Hot Toast</strong></td><td><span class="version-tag">2.x</span></td><td class="purpose-tag">Lightweight toast notification library. Displays success, error, and info messages for user actions like bid creation, login, and file uploads.</td></tr>
+<tr><td><strong>React Query</strong></td><td><span class="version-tag">5.x</span></td><td class="purpose-tag">Powerful data fetching and caching library. Handles server state with automatic background refetching, stale-while-revalidate caching, and optimistic updates.</td></tr>
+</table>
+</div>
+</div>
+
+<!-- PAGE 5: BACKEND DEEP DIVE -->
+<div class="page" style="page-break-after:always;">
+<style>
+.code-block{background:#0f172a;color:#e2e8f0;padding:20px 24px;border-radius:12px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;margin:16px 0;overflow:hidden;}
+.code-comment{color:#64748b;}
+.code-ann{color:#a78bfa;}
+.code-class{color:#60a5fa;}
+.code-str{color:#34d399;}
+.flow-steps{margin:20px 0;}
+.flow-step{display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid #f1f5f9;}
+.step-num{background:#3b82f6;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;margin-top:2px;}
+.step-title{font-weight:600;color:#0f172a;font-size:15px;margin-bottom:4px;}
+.step-desc{font-size:14px;color:#64748b;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0;}
+.feat-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.feat-icon{font-size:28px;margin-bottom:10px;}
+.feat-title{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:8px;}
+.feat-desc{font-size:13px;color:#64748b;line-height:1.6;}
+</style>
+
+<h2>4. Backend — Spring Boot Deep Dive</h2>
+
+<h3>4.1 Security Layer — JWT Authentication Flow</h3>
+<p>Every HTTP request passes through a custom <strong>JwtAuthFilter</strong> before reaching any controller. This filter validates the JWT token, loads the user, and sets the Spring Security context.</p>
+
+<div class="flow-steps">
+  <div class="flow-step">
+    <div class="step-num">1</div>
+    <div><div class="step-title">Client sends request with JWT token</div><div class="step-desc">Frontend sends HTTP request with <code>Authorization: Bearer eyJhbGci...</code> header via Axios interceptor automatically.</div></div>
+  </div>
+  <div class="flow-step">
+    <div class="step-num">2</div>
+    <div><div class="step-title">JwtAuthFilter intercepts</div><div class="step-desc">Extracts the token from the Authorization header. Supports both real JWT tokens and demo tokens (demo-token-ROLE format for testing).</div></div>
+  </div>
+  <div class="flow-step">
+    <div class="step-num">3</div>
+    <div><div class="step-title">Token validation</div><div class="step-desc">JwtUtil validates the signature, checks expiration, and extracts the userId from the token's subject claim using HS256 verification.</div></div>
+  </div>
+  <div class="flow-step">
+    <div class="step-num">4</div>
+    <div><div class="step-title">User loaded from MongoDB</div><div class="step-desc">User document is fetched from MongoDB by ID and wrapped in Spring Security's Authentication object with proper role authorities.</div></div>
+  </div>
+  <div class="flow-step">
+    <div class="step-num">5</div>
+    <div><div class="step-title">SecurityContext populated</div><div class="step-desc">SecurityContextHolder stores the authenticated user. Controllers access it via AuthHelper.getCurrentUser() to get the currently logged-in user.</div></div>
+  </div>
+</div>
+
+<h3>4.2 Controller Architecture</h3>
+<div class="two-col">
+  <div class="feat-card"><div class="feat-icon">🔑</div><div class="feat-title">AuthController</div><div class="feat-desc">Handles user registration, login, profile management, password change, and Google OAuth integration. Returns JWT tokens on successful authentication.</div></div>
+  <div class="feat-card"><div class="feat-icon">📋</div><div class="feat-title">BidController</div><div class="feat-desc">Full bid CRUD with role-based filtering. Managers see all bids, employees see assigned bids, clients see their own. Includes analytics aggregation pipeline.</div></div>
+  <div class="feat-card"><div class="feat-icon">🤖</div><div class="feat-title">AiController</div><div class="feat-desc">Integrates with Google Gemini AI for chat, sentiment analysis, win probability prediction, bid summaries, smart priority assignment, and duplicate detection.</div></div>
+  <div class="feat-card"><div class="feat-icon">🔔</div><div class="feat-title">NotificationController</div><div class="feat-desc">CRUD for notifications. NotificationService auto-creates notifications on every bid action — assignment, status change, approval, completion.</div></div>
+  <div class="feat-card"><div class="feat-icon">🗺️</div><div class="feat-title">LocationController</div><div class="feat-desc">Updates and retrieves user GPS coordinates. Role-based visibility — managers see all locations, employees/clients see only their own.</div></div>
+  <div class="feat-card"><div class="feat-icon">💳</div><div class="feat-title">PaymentController</div><div class="feat-desc">Manages subscription plans, payment processing, billing cycles (monthly/yearly), invoice generation, and subscription cancellation.</div></div>
+</div>
+
+<h3>4.3 GeminiService — AI Integration</h3>
+<p>The <strong>GeminiService</strong> uses OkHttp to call the Groq API (Llama 3.1 model) which is fully compatible with Gemini-style prompting. It builds structured prompts and parses JSON responses for each AI feature.</p>
+
+<div class="code-block">
+<span class="code-ann">@Service</span>
+<span class="code-class">public class</span> GeminiService {
+  <span class="code-comment">// Sends prompt to Groq/Gemini API via OkHttp</span>
+  <span class="code-class">public</span> String askGemini(String prompt) {
+    <span class="code-comment">// Build JSON request body</span>
+    <span class="code-comment">// POST to https://api.groq.com/openai/v1/chat/completions</span>
+    <span class="code-comment">// Extract text from response choices[0].message.content</span>
+    <span class="code-comment">// Return cleaned response string</span>
+  }
+}
+</div>
+</div>
+
+<!-- PAGE 6: FRONTEND DEEP DIVE -->
+<div class="page" style="page-break-after:always;">
+<style>
+.route-table{width:100%;border-collapse:collapse;margin:16px 0;}
+.route-table th{background:#1e293b;color:#fff;padding:11px 16px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:1px;}
+.route-table td{padding:11px 16px;border-bottom:1px solid #f1f5f9;font-size:13px;font-family:'JetBrains Mono',monospace;}
+.route-table tr:hover td{background:#f8fafc;}
+.role-badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;font-family:'Inter',sans-serif;}
+.role-m{background:#dbeafe;color:#1e40af;}
+.role-c{background:#d1fae5;color:#065f46;}
+.role-e{background:#fef3c7;color:#92400e;}
+.role-a{background:#fce7f3;color:#9d174d;}
+.store-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;}
+.store-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px;box-shadow:0 2px 6px rgba(0,0,0,0.04);}
+.store-name{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:#1e40af;margin-bottom:8px;}
+.store-persist{font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;}
+.persist-yes{background:#d1fae5;color:#065f46;}
+.persist-no{background:#fee2e2;color:#991b1b;}
+.store-fields{font-size:13px;color:#64748b;line-height:1.8;}
+</style>
+
+<h2>5. Frontend — React.js Architecture</h2>
+
+<h3>5.1 Application Routing Structure</h3>
+<p>The app uses <strong>React Router DOM v7</strong> with nested route layouts. Each role has its own route prefix and layout wrapper with protected route guards that check authentication and redirect if unauthorized.</p>
+
+<table class="route-table">
+<tr><th>Path</th><th>Role</th><th>Page Description</th></tr>
+<tr><td>/login, /register</td><td>—</td><td>Public authentication pages</td></tr>
+<tr><td>/manager</td><td><span class="role-badge role-m">Manager</span> <span class="role-badge role-a">Admin</span></td><td>Main dashboard with KPI cards, charts, recent bids</td></tr>
+<tr><td>/manager/bids</td><td><span class="role-badge role-m">Manager</span></td><td>All bids management with filters, search, bulk actions</td></tr>
+<tr><td>/manager/analytics</td><td><span class="role-badge role-m">Manager</span></td><td>Revenue charts, win rate, department breakdown</td></tr>
+<tr><td>/manager/ai</td><td><span class="role-badge role-m">Manager</span></td><td>AI Insights — win probability, recommendations</td></tr>
+<tr><td>/manager/map</td><td><span class="role-badge role-m">Manager</span></td><td>Live map with all team member locations</td></tr>
+<tr><td>/manager/subscription</td><td><span class="role-badge role-m">Manager</span></td><td>Plan management, upgrade/downgrade, billing history</td></tr>
+<tr><td>/client</td><td><span class="role-badge role-c">Client</span></td><td>Client dashboard — submitted bids status overview</td></tr>
+<tr><td>/client/bids</td><td><span class="role-badge role-c">Client</span></td><td>My bids list with status tracking and feedback</td></tr>
+<tr><td>/employee</td><td><span class="role-badge role-e">Employee</span></td><td>Employee dashboard — assigned work, progress</td></tr>
+<tr><td>/employee/bids</td><td><span class="role-badge role-e">Employee</span></td><td>Assigned bids with progress update and completion submit</td></tr>
+<tr><td>*/map</td><td>All roles</td><td>Live location map (visibility filtered by role)</td></tr>
+<tr><td>*/profile</td><td>All roles</td><td>User profile, password change, avatar upload</td></tr>
+<tr><td>*/notifications</td><td>All roles</td><td>Notification center with read/delete actions</td></tr>
+</table>
+
+<h3>5.2 State Management — Zustand Stores</h3>
+<p><strong>Zustand</strong> is a minimal, unopinionated state management library. Unlike Redux, it requires no boilerplate providers or reducers. Each store is a simple hook that components subscribe to.</p>
+
+<div class="store-grid">
+  <div class="store-card">
+    <div class="store-name">authStore <span class="store-persist persist-yes">✅ Persisted</span></div>
+    <div class="store-fields">• user (object) — full user document<br>• token (string) — JWT token<br>• isAuthenticated (boolean)<br>• login(user, token) action<br>• logout() action</div>
+  </div>
+  <div class="store-card">
+    <div class="store-name">themeStore <span class="store-persist persist-yes">✅ Persisted</span></div>
+    <div class="store-fields">• theme: 'dark' | 'light'<br>• toggleTheme() action<br>• Applies data-theme attribute to DOM<br>• CSS variables switch on toggle</div>
+  </div>
+  <div class="store-card">
+    <div class="store-name">languageStore <span class="store-persist persist-yes">✅ Persisted</span></div>
+    <div class="store-fields">• language: 'en' | 'hi' | 'ar'<br>• setLanguage(lang) action<br>• RTL direction for Arabic<br>• i18n translations object</div>
+  </div>
+  <div class="store-card">
+    <div class="store-name">notificationStore <span class="store-persist persist-no">❌ Session</span></div>
+    <div class="store-fields">• notifications[] array<br>• unreadCount (number)<br>• fetchNotifications() action<br>• markAllRead() action</div>
+  </div>
+</div>
+
+<h3>5.3 Key UI Components</h3>
+<p><strong>DashboardLayout:</strong> The main wrapper component for all authenticated pages. Renders a fixed sidebar (left), fixed topbar (top), breadcrumb navigation, and the main content area with scroll.</p>
+<p><strong>Sidebar:</strong> Role-based navigation links rendered conditionally. Supports collapsible icon-only mode for more screen space. Shows unread notification badge count.</p>
+<p><strong>Topbar:</strong> Contains a debounced live search bar (350ms), theme toggle button, language switcher dropdown, notification bell with badge, and user avatar with dropdown menu.</p>
+<p><strong>AIChatWidget:</strong> Floating bottom-right chat button. Opens a slide-up panel with chat history, input field, and real-time responses from the backend AI endpoint.</p>
+<p><strong>BidTimeline:</strong> Visual timeline component showing each bid tracking stage with completion status, timestamps, and responsible team member names.</p>
+</div>
+
+<!-- PAGE 7: DATABASE DESIGN -->
+<div class="page" style="page-break-after:always;">
+<style>
+.db-collection{background:#fff;border:1px solid #e2e8f0;border-radius:16px;margin:20px 0;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.05);}
+.db-header{background:linear-gradient(90deg,#0f172a,#1e3a5f);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:12px;}
+.db-icon{font-size:20px;}
+.db-name{font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+.db-desc{font-size:12px;color:#94a3b8;margin-left:auto;}
+.db-fields{padding:20px 24px;}
+.field-row{display:grid;grid-template-columns:200px 100px 1fr;gap:12px;padding:8px 0;border-bottom:1px solid #f8fafc;align-items:start;}
+.field-row:last-child{border-bottom:none;}
+.field-name{font-family:'JetBrains Mono',monospace;font-size:13px;color:#1e40af;font-weight:600;}
+.field-type{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:600;text-align:center;}
+.type-string{background:#dbeafe;color:#1d4ed8;}
+.type-bool{background:#d1fae5;color:#065f46;}
+.type-date{background:#fef3c7;color:#92400e;}
+.type-num{background:#ede9fe;color:#5b21b6;}
+.type-arr{background:#fee2e2;color:#991b1b;}
+.type-ref{background:#fce7f3;color:#9d174d;}
+.field-desc{font-size:13px;color:#64748b;}
+</style>
+
+<h2>6. Database Design — MongoDB Collections</h2>
+<p>BidFlow uses <strong>MongoDB Atlas</strong> — a cloud-hosted NoSQL document database. MongoDB stores data as flexible JSON-like BSON documents, making it ideal for complex nested objects like bid history, tracking stages, and user profiles without rigid schemas.</p>
+
+<div class="db-collection">
+  <div class="db-header"><span class="db-icon">👤</span><span class="db-name">users</span><span class="db-desc">Core user authentication & profile data</span></div>
+  <div class="db-fields">
+    <div class="field-row"><span class="field-name">_id</span><span class="field-type type-string">ObjectId</span><span class="field-desc">Auto-generated unique identifier by MongoDB</span></div>
+    <div class="field-row"><span class="field-name">email</span><span class="field-type type-string">String</span><span class="field-desc">Unique email address — used as login identifier</span></div>
+    <div class="field-row"><span class="field-name">password</span><span class="field-type type-string">String</span><span class="field-desc">BCrypt hashed password (strength 12) — never stored plain</span></div>
+    <div class="field-row"><span class="field-name">role</span><span class="field-type type-string">String</span><span class="field-desc">CLIENT | EMPLOYEE | MANAGER | ADMIN — controls access</span></div>
+    <div class="field-row"><span class="field-name">subscriptionPlan</span><span class="field-type type-string">String</span><span class="field-desc">FREE | BASIC | PRO | ENTERPRISE — current active plan</span></div>
+    <div class="field-row"><span class="field-name">latitude / longitude</span><span class="field-type type-num">Double</span><span class="field-desc">GPS coordinates updated by live location feature</span></div>
+    <div class="field-row"><span class="field-name">googleId</span><span class="field-type type-string">String</span><span class="field-desc">Google OAuth unique ID — sparse unique index allows null</span></div>
+    <div class="field-row"><span class="field-name">isActive</span><span class="field-type type-bool">Boolean</span><span class="field-desc">Soft-delete flag — inactive users cannot login</span></div>
+  </div>
+</div>
+
+<div class="db-collection">
+  <div class="db-header"><span class="db-icon">📋</span><span class="db-name">bids</span><span class="db-desc">Core business entity — complete bid lifecycle</span></div>
+  <div class="db-fields">
+    <div class="field-row"><span class="field-name">bidNumber</span><span class="field-type type-string">String</span><span class="field-desc">Auto-generated unique identifier e.g. BID-001-1234</span></div>
+    <div class="field-row"><span class="field-name">status</span><span class="field-type type-string">String</span><span class="field-desc">new → under_review → proposal_generated → awaiting_approval → won/lost</span></div>
+    <div class="field-row"><span class="field-name">value</span><span class="field-type type-num">Double</span><span class="field-desc">Monetary value of the bid in USD</span></div>
+    <div class="field-row"><span class="field-name">priority</span><span class="field-type type-string">String</span><span class="field-desc">high | medium | low — AI-assigned or manually set</span></div>
+    <div class="field-row"><span class="field-name">progress</span><span class="field-type type-num">Integer</span><span class="field-desc">0–100 percentage of completion updated by employee</span></div>
+    <div class="field-row"><span class="field-name">aiWinProbability</span><span class="field-type type-num">Integer</span><span class="field-desc">0–100 AI-predicted win probability from Gemini</span></div>
+    <div class="field-row"><span class="field-name">trackingStages</span><span class="field-type type-arr">Array</span><span class="field-desc">Ordered list of workflow stages with completion timestamps</span></div>
+    <div class="field-row"><span class="field-name">history</span><span class="field-type type-arr">Array</span><span class="field-desc">Immutable audit log — every action with user and timestamp</span></div>
+    <div class="field-row"><span class="field-name">assignedTo</span><span class="field-type type-ref">ObjectId</span><span class="field-desc">Reference to users collection — assigned employee</span></div>
+    <div class="field-row"><span class="field-name">clientSentiment</span><span class="field-type type-string">String</span><span class="field-desc">positive | neutral | negative — AI sentiment analysis result</span></div>
+  </div>
+</div>
+
+<div class="db-collection">
+  <div class="db-header"><span class="db-icon">💳</span><span class="db-name">payments</span><span class="db-desc">Subscription payment transaction records</span></div>
+  <div class="db-fields">
+    <div class="field-row"><span class="field-name">userId</span><span class="field-type type-ref">ObjectId</span><span class="field-desc">Reference to user who made the payment</span></div>
+    <div class="field-row"><span class="field-name">status</span><span class="field-type type-string">String</span><span class="field-desc">pending | success | failed | refunded</span></div>
+    <div class="field-row"><span class="field-name">amount</span><span class="field-type type-num">Double</span><span class="field-desc">Payment amount in USD</span></div>
+    <div class="field-row"><span class="field-name">billingCycle</span><span class="field-type type-string">String</span><span class="field-desc">monthly | yearly — determines discount applied</span></div>
+    <div class="field-row"><span class="field-name">invoiceNumber</span><span class="field-type type-string">String</span><span class="field-desc">Auto-generated unique invoice number for billing records</span></div>
+    <div class="field-row"><span class="field-name">paymentMethod</span><span class="field-type type-string">String</span><span class="field-desc">card | upi | netbanking — chosen payment method</span></div>
+  </div>
+</div>
+</div>
+
+<!-- PAGE 8: BID WORKFLOW + AI FEATURES -->
+<div class="page" style="page-break-after:always;">
+<style>
+.workflow-diagram{background:#0f172a;border-radius:20px;padding:32px;margin:20px 0;color:#e2e8f0;}
+.wf-title{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:2px;margin-bottom:24px;text-align:center;}
+.wf-steps{display:flex;flex-direction:column;gap:0;}
+.wf-step{display:flex;align-items:center;gap:16px;padding:14px 20px;border-radius:10px;margin:4px 0;}
+.wf-client{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2);}
+.wf-manager{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2);}
+.wf-employee{background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.2);}
+.wf-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;}
+.num-green{background:#34d399;color:#0f172a;}
+.num-blue{background:#60a5fa;color:#0f172a;}
+.num-orange{background:#fb923c;color:#0f172a;}
+.wf-info{flex:1;}
+.wf-action{font-size:14px;font-weight:600;color:#e2e8f0;}
+.wf-who{font-size:12px;color:#94a3b8;margin-top:2px;}
+.wf-arrow{text-align:center;color:#475569;font-size:18px;padding:4px 0;}
+.status-flow{display:flex;align-items:center;gap:0;margin:20px 0;overflow-x:auto;padding:20px;background:#f8fafc;border-radius:14px;}
+.status-node{background:#fff;border:2px solid #3b82f6;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;color:#1e40af;text-align:center;white-space:nowrap;min-width:90px;}
+.status-arrow{color:#94a3b8;font-size:18px;margin:0 8px;flex-shrink:0;}
+.status-node.won{border-color:#34d399;color:#065f46;background:#d1fae5;}
+.status-node.lost{border-color:#f87171;color:#991b1b;background:#fee2e2;}
+.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;}
+.ai-card{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1px solid #bfdbfe;border-radius:14px;padding:20px;}
+.ai-icon{font-size:30px;margin-bottom:10px;}
+.ai-name{font-size:14px;font-weight:700;color:#1e40af;margin-bottom:6px;}
+.ai-desc{font-size:13px;color:#374151;line-height:1.6;}
+.ai-endpoint{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b7280;margin-top:8px;background:#fff;padding:4px 8px;border-radius:6px;display:inline-block;}
+</style>
+
+<h2>7. Bid Management Workflow</h2>
+<p>The bid lifecycle follows a structured multi-step approval workflow involving three roles. Each stage transition automatically creates notifications and audit history entries.</p>
+
+<div class="workflow-diagram">
+  <div class="wf-title">COMPLETE BID LIFECYCLE</div>
+  <div class="wf-steps">
+    <div class="wf-step wf-client"><div class="wf-num num-green">1</div><div class="wf-info"><div class="wf-action">📝 Client Submits Bid</div><div class="wf-who">Role: CLIENT — Fills title, description, value, deadline, requirements</div></div></div>
+    <div class="wf-arrow">↓</div>
+    <div class="wf-step wf-manager"><div class="wf-num num-blue">2</div><div class="wf-info"><div class="wf-action">🔍 Manager Reviews & Verifies Requirements</div><div class="wf-who">Role: MANAGER — Checks requirements, verifies or rejects with notes</div></div></div>
+    <div class="wf-arrow">↓</div>
+    <div class="wf-step wf-manager"><div class="wf-num num-blue">3</div><div class="wf-info"><div class="wf-action">👷 Manager Assigns to Employee</div><div class="wf-who">Role: MANAGER — Selects team member, sets priority, updates status</div></div></div>
+    <div class="wf-arrow">↓</div>
+    <div class="wf-step wf-employee"><div class="wf-num num-orange">4</div><div class="wf-info"><div class="wf-action">⚙️ Employee Works — Updates Progress %</div><div class="wf-who">Role: EMPLOYEE — Updates 0–100% progress, adds comments, uploads documents</div></div></div>
+    <div class="wf-arrow">↓</div>
+    <div class="wf-step wf-employee"><div class="wf-num num-orange">5</div><div class="wf-info"><div class="wf-action">✅ Employee Submits Completion</div><div class="wf-who">Role: EMPLOYEE — Submits with completion notes for manager review</div></div></div>
+    <div class="wf-arrow">↓</div>
+    <div class="wf-step wf-manager"><div class="wf-num num-blue">6</div><div class="wf-info"><div class="wf-action">🏆 Manager Gives Final Approval → WON</div><div class="wf-who">Role: MANAGER — Approves → status: won | Sends back → negotiation</div></div></div>
+    <div class="wf-arrow">↓</div>
+    <div class="wf-step wf-client"><div class="wf-num num-green">7</div><div class="wf-info"><div class="wf-action">⭐ Client Gives Rating & Feedback</div><div class="wf-who">Role: CLIENT — 1–5 star rating with written feedback</div></div></div>
+  </div>
+</div>
+
+<h3>Bid Status Flow Diagram</h3>
+<div class="status-flow">
+  <div class="status-node">new</div><div class="status-arrow">→</div>
+  <div class="status-node">under_review</div><div class="status-arrow">→</div>
+  <div class="status-node">proposal_generated</div><div class="status-arrow">→</div>
+  <div class="status-node">awaiting_approval</div><div class="status-arrow">→</div>
+  <div class="status-node won">✅ won</div>
+</div>
+<div style="text-align:center;font-size:13px;color:#64748b;margin-top:8px;">At any stage: can move to <span style="color:#ef4444;font-weight:600;">❌ lost</span> or <span style="color:#f59e0b;font-weight:600;">↩ negotiation</span> for revision</div>
+
+<h2>8. AI Features — Google Gemini Integration</h2>
+<p>BidFlow integrates <strong>Groq's Llama 3.1</strong> model (via Gemini-compatible API) to provide intelligent automation across the bid management process.</p>
+
+<div class="ai-grid">
+  <div class="ai-card"><div class="ai-icon">💬</div><div class="ai-name">AI Chat Assistant</div><div class="ai-desc">Answers questions about bids, stats, win rates, pending items. Has smart local fallback for common queries without API call. Understands English, Hindi greetings.</div><div class="ai-endpoint">POST /api/ai/chat</div></div>
+  <div class="ai-card"><div class="ai-icon">📊</div><div class="ai-name">Win Probability Prediction</div><div class="ai-desc">Analyzes bid value, priority, client sentiment, progress, and deadline to predict 0–100% win probability. Falls back to rule-based scoring if API unavailable.</div><div class="ai-endpoint">GET /api/ai/predict/:bidId</div></div>
+  <div class="ai-card"><div class="ai-icon">😊</div><div class="ai-name">Sentiment Analysis</div><div class="ai-desc">Analyzes client messages and notes to classify sentiment as positive, neutral, or negative with confidence score and keyword extraction.</div><div class="ai-endpoint">POST /api/ai/sentiment</div></div>
+  <div class="ai-card"><div class="ai-icon">📝</div><div class="ai-name">Executive Summary</div><div class="ai-desc">Auto-generates a 3–4 sentence professional executive summary for any bid covering scope, value proposition, current status, and key considerations.</div><div class="ai-endpoint">POST /api/ai/summary/:bidId</div></div>
+  <div class="ai-card"><div class="ai-icon">🎯</div><div class="ai-name">Smart Priority Assignment</div><div class="ai-desc">Analyzes bid value, deadline proximity, and client data to automatically assign high/medium/low priority. Saves result back to MongoDB.</div><div class="ai-endpoint">POST /api/ai/priority/:bidId</div></div>
+  <div class="ai-card"><div class="ai-icon">💡</div><div class="ai-name">Actionable Recommendations</div><div class="ai-desc">Returns 4 specific, actionable recommendations to improve win chances for a specific bid based on its data, client history, and current status.</div><div class="ai-endpoint">GET /api/ai/recommendations/:bidId</div></div>
+</div>
+</div>
+
+<!-- PAGE 9: SECURITY + DEPLOYMENT + CLOSING -->
+<div class="page" style="page-break-after:always;">
+<style>
+.security-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;}
+.sec-card{background:#fff;border-left:4px solid #3b82f6;border-radius:0 12px 12px 0;padding:18px 20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.sec-card.red{border-left-color:#ef4444;}
+.sec-card.green{border-left-color:#10b981;}
+.sec-card.purple{border-left-color:#8b5cf6;}
+.sec-title{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:8px;}
+.sec-desc{font-size:13px;color:#64748b;line-height:1.7;}
+.deploy-flow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:20px 0;}
+.dep-step{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.dep-icon{font-size:36px;margin-bottom:12px;}
+.dep-title{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:8px;}
+.dep-desc{font-size:12px;color:#64748b;line-height:1.6;}
+.dep-url{font-family:'JetBrains Mono',monospace;font-size:11px;color:#3b82f6;margin-top:8px;word-break:break-all;}
+.roles-table{width:100%;border-collapse:collapse;margin:16px 0;}
+.roles-table th{background:#1e293b;color:#fff;padding:11px 16px;font-size:12px;text-align:center;}
+.roles-table td{padding:11px 16px;border-bottom:1px solid #f1f5f9;font-size:13px;text-align:center;}
+.tick{color:#10b981;font-weight:700;font-size:16px;}
+.cross{color:#ef4444;font-weight:700;font-size:16px;}
+.feat-col{text-align:left;font-weight:500;color:#334155;}
+</style>
+
+<h2>9. Authentication & Security</h2>
+<div class="security-grid">
+  <div class="sec-card"><div class="sec-title">🔐 JWT Token Authentication</div><div class="sec-desc">JSON Web Tokens signed with HS256 algorithm using a 256-bit secret key. Token carries userId as subject, expires in 7 days (604,800,000ms). Validated on every request by JwtAuthFilter.</div></div>
+  <div class="sec-card red"><div class="sec-title">🔒 BCrypt Password Hashing</div><div class="sec-desc">All passwords hashed using BCrypt with cost factor 12 — providing ~200ms hash time to resist brute-force attacks. Passwords are never returned in any API response.</div></div>
+  <div class="sec-card green"><div class="sec-title">🌐 Google OAuth 2.0</div><div class="sec-desc">Full OAuth2 redirect flow. Users click "Sign in with Google" → redirected to Google → callback creates/links account → returns same JWT token as regular login.</div></div>
+  <div class="sec-card purple"><div class="sec-title">🛡️ Role-Based Access Control</div><div class="sec-desc">Spring Security method-level security with @PreAuthorize annotations. Each endpoint checks the authenticated user's role before processing the request. 4 roles with granular permissions.</div></div>
+  <div class="sec-card"><div class="sec-title">🔄 CORS Configuration</div><div class="sec-desc">Cross-Origin Resource Sharing configured to allow requests only from trusted frontend origins (localhost ports in dev, *.onrender.com in production). Uses pattern matching for wildcard support.</div></div>
+  <div class="sec-card red"><div class="sec-title">📧 OTP Email Verification</div><div class="sec-desc">6-digit OTP sent via Gmail SMTP using Spring Mail. OTP tokens stored in MongoDB with TTL expiry. Used for forgot password flow and account verification.</div></div>
+</div>
+
+<h2>10. User Roles & Permissions Matrix</h2>
+<table class="roles-table">
+<tr><th style="text-align:left">Feature</th><th>CLIENT</th><th>EMPLOYEE</th><th>MANAGER</th><th>ADMIN</th></tr>
+<tr><td class="feat-col">Submit new bid</td><td><span class="tick">✓</span></td><td><span class="cross">✗</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+<tr><td class="feat-col">View own bids only</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+<tr><td class="feat-col">View ALL bids</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+<tr><td class="feat-col">Assign employee to bid</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+<tr><td class="feat-col">Update progress %</td><td><span class="cross">✗</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+<tr><td class="feat-col">Submit completion</td><td><span class="cross">✗</span></td><td><span class="tick">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+<tr><td class="feat-col">Final approval (won)</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+<tr><td class="feat-col">Give star rating</td><td><span class="tick">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+<tr><td class="feat-col">View analytics dashboard</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+<tr><td class="feat-col">Live map — all users</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+<tr><td class="feat-col">Delete bid</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+</table>
+
+<h2>11. Deployment Architecture</h2>
+<div class="deploy-flow">
+  <div class="dep-step"><div class="dep-icon">💻</div><div class="dep-title">Developer Machine</div><div class="dep-desc">Code written in VS Code. Git Bash used to commit and push changes to GitHub repository.</div><div class="dep-url">github.com/vishal-q/Bid_AuctionX_Tracking</div></div>
+  <div class="dep-step"><div class="dep-icon">🐳</div><div class="dep-title">Backend — Render Web Service</div><div class="dep-desc">Spring Boot app containerized with Docker. Render pulls from GitHub, builds Docker image, runs the JAR on port 8080.</div><div class="dep-url">bid-auctionx-tracking.onrender.com</div></div>
+  <div class="dep-step"><div class="dep-icon">⚡</div><div class="dep-title">Frontend — Render Static Site</div><div class="dep-desc">Vite builds React app into static HTML/JS/CSS files. Render serves them via CDN. Auto-deploys on every push to main branch.</div><div class="dep-url">bidflow-frontend-jeeu.onrender.com</div></div>
+</div>
+</div>
+
+<!-- FINAL PAGE: SUMMARY -->
+<div class="page">
+<style>
+.summary-hero{background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border-radius:20px;padding:48px;text-align:center;margin-bottom:32px;}
+.summary-title{font-size:32px;font-weight:800;margin-bottom:12px;}
+.summary-sub{font-size:15px;color:#94a3b8;}
+.final-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin:24px 0;}
+.final-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.05);}
+.final-icon{font-size:40px;margin-bottom:12px;}
+.final-title{font-size:15px;font-weight:700;color:#0f172a;margin-bottom:8px;}
+.final-desc{font-size:13px;color:#64748b;line-height:1.6;}
+.live-box{background:linear-gradient(90deg,#d1fae5,#dbeafe);border:2px solid #34d399;border-radius:16px;padding:28px;text-align:center;margin:24px 0;}
+.live-title{font-size:18px;font-weight:700;color:#065f46;margin-bottom:8px;}
+.live-url{font-family:'JetBrains Mono',monospace;font-size:16px;color:#1e40af;font-weight:600;}
+</style>
+
+<h1>📌 Project Summary</h1>
+
+<div class="summary-hero">
+  <div class="summary-title">BidFlow AuctionX Tracking</div>
+  <div class="summary-sub">A complete, production-deployed, full-stack industrial bid management platform built with modern enterprise technologies</div>
+</div>
+
+<div class="final-grid">
+  <div class="final-card"><div class="final-icon">⚙️</div><div class="final-title">Backend</div><div class="final-desc">Spring Boot 3.2.5 · Java 17 · Spring Security · JWT · MongoDB · WebSocket · Docker</div></div>
+  <div class="final-card"><div class="final-icon">⚛️</div><div class="final-title">Frontend</div><div class="final-desc">React 19 · Vite · Zustand · Axios · Tailwind CSS · Recharts · React Leaflet · xterm.js</div></div>
+  <div class="final-card"><div class="final-icon">☁️</div><div class="final-title">Cloud & AI</div><div class="final-desc">MongoDB Atlas · Google Gemini AI · Google OAuth · OpenStreetMap · Render.com · Gmail SMTP</div></div>
+  <div class="final-card"><div class="final-icon">🔐</div><div class="final-title">Security</div><div class="final-desc">JWT HS256 · BCrypt-12 · RBAC · CORS · OTP Email · Spring Security Filter Chain</div></div>
+  <div class="final-card"><div class="final-icon">🤖</div><div class="final-title">AI Features</div><div class="final-desc">Win Prediction · Sentiment Analysis · Executive Summary · Chat Assistant · Smart Priority · Recommendations</div></div>
+  <div class="final-card"><div class="final-icon">🌐</div><div class="final-title">Extra Features</div><div class="final-desc">3 Languages · Dark/Light Mode · Live Map · SSH Terminal · Real-time Notifications · Subscription Plans</div></div>
+</div>
+
+<div class="live-box">
+  <div class="live-title">🚀 Live Demo URL</div>
+  <div class="live-url">https://bidflow-frontend-jeeu.onrender.com</div>
+  <div style="font-size:13px;color:#374151;margin-top:10px;">GitHub: github.com/vishal-q/Bid_AuctionX_Tracking</div>
+</div>
+
+<div style="text-align:center;padding:30px;color:#94a3b8;font-size:13px;border-top:1px solid #e2e8f0;margin-top:32px;">
+  <strong style="color:#334155;">BidFlow AuctionX Tracking</strong> — Project Documentation v1.0.0 · June 2026<br>
+  Built with Spring Boot + React.js + MongoDB Atlas + Google Gemini AI
+</div>
+</div>
+
+</body>
+</html>

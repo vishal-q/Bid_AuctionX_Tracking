@@ -33,6 +33,9 @@ public class GoogleAuthController {
     @Value("${app.frontend.url}")
     private String frontendUrl;
 
+    @Value("${app.backend.url:http://localhost:8080}")
+    private String backendUrl;
+
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper = new ObjectMapper()
@@ -44,14 +47,13 @@ public class GoogleAuthController {
             .readTimeout(15, TimeUnit.SECONDS)
             .build();
 
-    private static final String CALLBACK_URL = "http://localhost:8080/api/auth/google/callback";
-
     // ── Initiate Google OAuth ─────────────────────────────────────────────────
     @GetMapping("/google")
     public RedirectView initiateGoogleAuth() {
+        String callbackUrl = backendUrl + "/api/auth/google/callback";
         String authUrl = "https://accounts.google.com/o/oauth2/v2/auth"
                 + "?client_id=" + clientId
-                + "&redirect_uri=" + URLEncoder.encode(CALLBACK_URL, StandardCharsets.UTF_8)
+                + "&redirect_uri=" + URLEncoder.encode(callbackUrl, StandardCharsets.UTF_8)
                 + "&response_type=code"
                 + "&scope=" + URLEncoder.encode("openid email profile", StandardCharsets.UTF_8)
                 + "&access_type=offline";
@@ -66,13 +68,15 @@ public class GoogleAuthController {
             return new RedirectView(frontendUrl + "/login?error=google_failed");
         }
 
+        String callbackUrl = backendUrl + "/api/auth/google/callback";
+
         try {
             // Exchange code for tokens
             String tokenUrl = "https://oauth2.googleapis.com/token";
             String tokenBody = "code=" + URLEncoder.encode(code, StandardCharsets.UTF_8)
                     + "&client_id=" + URLEncoder.encode(clientId, StandardCharsets.UTF_8)
                     + "&client_secret=" + URLEncoder.encode(clientSecret, StandardCharsets.UTF_8)
-                    + "&redirect_uri=" + URLEncoder.encode(CALLBACK_URL, StandardCharsets.UTF_8)
+                    + "&redirect_uri=" + URLEncoder.encode(callbackUrl, StandardCharsets.UTF_8)
                     + "&grant_type=authorization_code";
 
             Request tokenRequest = new Request.Builder()
